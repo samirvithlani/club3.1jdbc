@@ -25,13 +25,14 @@ public class DBConnection {
 	private static String password = "root";
 	private static String driverClass = "com.mysql.jdbc.Driver";
 
-	public static void getDbConnection() {
+	public static Connection getDbConnection() {
 
+		Connection conn =null;
 		// driver load.. : driver class object...
 		try {
 			Class.forName(driverClass); // 1st step...
 
-			Connection conn = DriverManager.getConnection(connectionURL, userName, password);
+			conn = DriverManager.getConnection(connectionURL, userName, password);
 			if (conn != null) {
 				System.out.println("Connected to database..");
 			} else {
@@ -45,12 +46,13 @@ public class DBConnection {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return conn;
 
 	}
 
-	public static void main(String[] args) {
-
-		getDbConnection();
-	}
+//	public static void main(String[] args) {
+//
+//		getDbConnection();
+//	}
 
 }
