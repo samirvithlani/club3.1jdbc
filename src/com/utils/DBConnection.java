@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.mysql.jdbc.Driver;
+
 public class DBConnection {
 
 	// port no: service host
@@ -30,6 +32,7 @@ public class DBConnection {
 		Connection conn =null;
 		// driver load.. : driver class object...
 		try {
+			//new Keyword...
 			Class.forName(driverClass); // 1st step...
 
 			conn = DriverManager.getConnection(connectionURL, userName, password);
