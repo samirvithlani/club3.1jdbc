@@ -14,15 +14,12 @@ import com.utils.DBConnection;
 //insert into emp(name,email,age)values(?,?,?)
 //create table employees(id int primary key auto_increment,name varchar(30),email varchar(30),salary int);
 public class EmployeeController {
-	
-	
-	
+
 	public void updateEmployee() {
-		
-		
+
 		Connection conn = DBConnection.getDbConnection();
-		if(conn!=null) {
-			
+		if (conn != null) {
+
 			String updateSQL = "update employees set name=?,email=?,salary=? where id=?";
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(updateSQL);
@@ -30,91 +27,128 @@ public class EmployeeController {
 				pstmt.setString(2, "ram@yahoo.com");
 				pstmt.setInt(3, 30000);
 				pstmt.setInt(4, 2);
-				
+
 				int res = pstmt.executeUpdate();
-				if(res>0) {
+				if (res > 0) {
 					System.out.println("record updated..");
-				}
-				else {
+				} else {
 					System.out.println("record not updated...");
 				}
-				
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
+
 		}
-				
-		
-		
+
 	}
-	
-	
-	public void addEmployee() {
-	
+
+	public void addEmployees() {
+
 		Scanner sc = new Scanner(System.in);
 		Connection conn = DBConnection.getDbConnection();
-		if(conn!=null) {
-			
-			//? -> place holder..
+		PreparedStatement pstmt = null;
+		String insertSQL = "insert into employees(name,email,salary)values(?,?,?)";
+		while (true) {
+			if (conn != null) {
+
+				// ? -> place holder..
+				
+
+				try {
+					pstmt = conn.prepareStatement(insertSQL);
+					System.out.println("enter employee name");
+					String empName = sc.next();
+
+					System.out.println("enter employee email");
+					String empEmail = sc.next();
+
+					System.out.println("enter emp salary");
+					int salary = sc.nextInt();
+
+					pstmt.setString(1, empName);
+					pstmt.setString(2, empEmail);
+					pstmt.setInt(3, salary);
+
+					pstmt.addBatch();
+					
+
+					System.out.println("want to add more emp?? press 0 for exit");
+					int choice = sc.nextInt();
+					if (choice == 0) {
+						break;
+					}
+
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+
+			try {
+				pstmt.executeBatch();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	public void addEmployee() {
+
+		Scanner sc = new Scanner(System.in);
+		Connection conn = DBConnection.getDbConnection();
+		if (conn != null) {
+
+			// ? -> place holder..
 			String insertSQL = "insert into employees(name,email,salary)values(?,?,?)";
-			
+
 			try {
 				PreparedStatement pstmt = conn.prepareStatement(insertSQL);
 				System.out.println("enter employee name");
 				String empName = sc.next();
-				
+
 				System.out.println("enter employee email");
 				String empEmail = sc.next();
-				
+
 				System.out.println("enter emp salary");
 				int salary = sc.nextInt();
-						
+
 //				
 //				pstmt.setString(1, "amit");
 //				pstmt.setString(2, "amit@gmail.com");
 //				pstmt.setInt(3, 23456);
-				
 
 				pstmt.setString(1, empName);
 				pstmt.setString(2, empEmail);
 				pstmt.setInt(3, salary);
-				
-				
+
 				int res = pstmt.executeUpdate();
-				if(res>0) {
-					System.out.println(res+" record inserted..");
+
+				if (res > 0) {
+					System.out.println(res + " record inserted..");
+				} else {
+					System.out.println(res + " record inserted..");
 				}
-				else {
-					System.out.println(res+" record inserted..");
-				}
-				
-				
-				
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			
-			
-			
+			// int res = pstmt.executeUpdate();
 		}
-		
-	}
-	
 
-	
+	}
+
 	public static void main(String[] args) {
-		
-		
+
 		EmployeeController employeeController = new EmployeeController();
-		//employeeController.addEmployee();
-		employeeController.updateEmployee();
-		
-		
+		// employeeController.addEmployee();
+		// employeeController.updateEmployee();
+		employeeController.addEmployees();
+
 	}
 }

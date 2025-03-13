@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -82,12 +83,57 @@ public class StudentController {
 		}
 
 	}
+	
+	
+	public void addmulstudents() {
+		
+		Connection conn = DBConnection.getDbConnection();
+		String insertSQL = "insert into students(name,age,marks)values(?,?,?)";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(insertSQL);
+			for(int i=1;i<=10;i++) {
+			pstmt.setString(1, "ajay");
+			pstmt.setInt(2, 22);
+			pstmt.setInt(3, 77);
+			
+			pstmt.addBatch();
+		}
+
+//			pstmt.setString(1, "seeta");
+//			pstmt.setInt(2, 22);
+//			pstmt.setInt(3, 75);
+//			
+//			pstmt.addBatch();
+//			
+//			pstmt.setString(1, "geetaaa");
+//			pstmt.setInt(2, 3);
+//			pstmt.setInt(3, 74);
+//			
+//			pstmt.addBatch();
+			
+			pstmt.executeBatch();
+			
+			
+			
+
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
+	
+	
 
 	public static void main(String[] args) {
 
 		StudentController studentController = new StudentController();
-		studentController.addStudent();
+		//studentController.addStudent();
 		//studentController.deleteStudent(1);
+		studentController.addmulstudents();
 
 	}
 }
