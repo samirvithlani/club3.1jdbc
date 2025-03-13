@@ -2,6 +2,7 @@ package com.controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -143,12 +144,56 @@ public class EmployeeController {
 
 	}
 
+	
+	
+	
+	public void getAllEmployees() {
+		
+		
+		Connection conn = DBConnection.getDbConnection();
+		if(conn!=null) {
+			
+			String SelectSQL = "select * from employees where id=?";
+			
+			try {
+				PreparedStatement pstmt = conn.prepareStatement(SelectSQL);
+				pstmt.setInt(1, 3);
+				ResultSet rs = pstmt.executeQuery();
+				//1-->more..
+				//next -->true 
+				//next->false..
+				while(rs.next()) {
+					System.out.print(" \t\t\t"+rs.getInt("id"));
+					System.out.print(" \t\t\t"+rs.getString("name"));
+					System.out.print(" \t\t\t"+rs.getString("email"));
+					System.out.print(" \t\t\t"+rs.getInt("salary"));
+					System.out.println();
+					
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	public static void main(String[] args) {
 
 		EmployeeController employeeController = new EmployeeController();
 		// employeeController.addEmployee();
 		// employeeController.updateEmployee();
-		employeeController.addEmployees();
+		//employeeController.addEmployees();
+		employeeController.getAllEmployees();
 
 	}
 }
