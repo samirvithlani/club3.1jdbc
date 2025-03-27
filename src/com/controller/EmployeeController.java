@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -182,6 +183,34 @@ public class EmployeeController {
 	
 	
 	
+	public void callProcedure() {
+		
+		
+		Connection conn = DBConnection.getDbConnection();
+		if(conn!=null) {
+			
+			
+			try {
+				CallableStatement stmt = conn.prepareCall("{CALL GetEmployeeById(?)}");
+				stmt.setInt(1, 5);
+				ResultSet rs = stmt.executeQuery();
+				while(rs.next()) {
+					System.out.print(" \t\t\t"+rs.getInt("id"));
+					System.out.print(" \t\t\t"+rs.getString("name"));
+					System.out.print(" \t\t\t"+rs.getString("email"));
+					System.out.print(" \t\t\t"+rs.getInt("salary"));
+					System.out.println();
+					
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
+	}
 	
 	
 	
@@ -193,7 +222,8 @@ public class EmployeeController {
 		// employeeController.addEmployee();
 		// employeeController.updateEmployee();
 		//employeeController.addEmployees();
-		employeeController.getAllEmployees();
+		//employeeController.getAllEmployees();
+		employeeController.callProcedure();
 
 	}
 }
